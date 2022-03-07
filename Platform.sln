@@ -3,11 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Platform.Web", "Platform.Web\Platform.Web.csproj", "{7163782C-BF59-4BD7-9ED3-FFB74FB0D071}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Platform.Web", "Platform.Web\Platform.Web.csproj", "{7163782C-BF59-4BD7-9ED3-FFB74FB0D071}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Business", "Business\Business.csproj", "{C4A2DDD3-6E22-4D3A-AA05-278A98AA0DA7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Business", "Business\Business.csproj", "{C4A2DDD3-6E22-4D3A-AA05-278A98AA0DA7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "DataAccess\DataAccess.csproj", "{EB15CB7E-B0BB-486D-9AE4-9953ADFD3EB5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccess", "DataAccess\DataAccess.csproj", "{EB15CB7E-B0BB-486D-9AE4-9953ADFD3EB5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Platform.API", "Platform.API\Platform.API.csproj", "{A5903265-3121-492A-9E39-9A8746B40356}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "Models\Models.csproj", "{6AB67EA5-EFE8-476C-8B7C-17A9315C88F5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +31,14 @@ Global
 		{EB15CB7E-B0BB-486D-9AE4-9953ADFD3EB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EB15CB7E-B0BB-486D-9AE4-9953ADFD3EB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EB15CB7E-B0BB-486D-9AE4-9953ADFD3EB5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A5903265-3121-492A-9E39-9A8746B40356}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5903265-3121-492A-9E39-9A8746B40356}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5903265-3121-492A-9E39-9A8746B40356}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5903265-3121-492A-9E39-9A8746B40356}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6AB67EA5-EFE8-476C-8B7C-17A9315C88F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6AB67EA5-EFE8-476C-8B7C-17A9315C88F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6AB67EA5-EFE8-476C-8B7C-17A9315C88F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6AB67EA5-EFE8-476C-8B7C-17A9315C88F5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
