@@ -1,33 +1,59 @@
-﻿using DataAccess.DataServices;
+﻿using Business.Mappers;
+using DataAccess.Data;
+using DataAccess.DataServices;
+using Microsoft.EntityFrameworkCore;
 using Models.DTOs.Comment;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Business.Services
 {
     public class CommentService : ICommentDataService
     {
-        public Task<CommentDto> Create(CommentDto commentDto)
+        private readonly ApplicationDbContext _db;
+
+        public CommentService(ApplicationDbContext db)
         {
-            throw new NotImplementedException();
+            _db = db;
+        }
+        public async Task<CommentDto> Create(int postId, CommentDto commentDto)
+        {
+            var dbComment = CommentMapper.Map(postId, commentDto);
+            await _db.Comments.AddAsync(dbComment);
+            await _db.SaveChangesAsync();
+            return CommentMapper.Map(dbComment);
         }
 
-        public Task Delete(int id)
+        public async Task Delete(int id)
         {
-            throw new NotImplementedException();
+            var dbComment = await _db.Comments.FindAsync(id);
+            if (dbComment == null)
+            {
+                throw new Exception("Comment for the given Id not found");
+            }
+
+            _db.Comments.Remove(dbComment);
+            await _db.SaveChangesAsync();
         }
 
-        public Task<IEnumerable<CommentDto>> ListByPostId(int postId)
+        public async Task<IEnumerable<CommentDto>> ListByPostId(int postId)
         {
-            throw new NotImplementedException();
+            var dbComments = await _db.Comments.Where(x => x.PostId == postId).ToListAsync();
+            return dbComments.Select(x => CommentMapper.Map(x));
         }
 
-        public Task<CommentDto> Update(CommentDto commentDto)
+        public async Task<CommentDto> Update(int id, CommentDto commentDto)
         {
-            throw new NotImplementedException();
+            var dbComment = await _db.Comments.FindAsync(id);
+            if (dbComment == null)
+            {
+                throw new Exception("Comment for the given Id not found");
+            }
+
+            dbComment.UpdatedOn = DateTime.UtcNow;
+
+            _db.Comments.Update(dbComment);
+            await _db.SaveChangesAsync();
+
+            return CommentMapper.Map(dbComment);
         }
     }
 }

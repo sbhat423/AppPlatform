@@ -10,8 +10,8 @@ namespace DataAccess.DataServices
     public interface ICommentDataService
     {
         public Task<IEnumerable<CommentDto>> ListByPostId(int postId);
-        public Task<CommentDto> Create(CommentDto commentDto);
-        public Task<CommentDto> Update(CommentDto commentDto);
+        public Task<CommentDto> Create(int postId, CommentDto commentDto);
+        public Task<CommentDto> Update(int id, CommentDto commentDto);
         public Task Delete(int id);
     }
 }
