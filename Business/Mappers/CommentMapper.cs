@@ -24,6 +24,7 @@ namespace Business.Mappers
         {
             return new CommentDto
             {
+                Id = comment.Id,
                 PostId = comment.PostId,
                 Content = comment.Content,
                 CreatedBy = comment.CreatedBy,

@@ -6,6 +6,8 @@
 @foreach (var comment in Comments)
 {
     <p>@comment.Content</p>
+    <button class="btn btn-danger" @onclick="() => DeleteComment(comment)">Delete</button>
+
 }
 
 @code {
@@ -13,8 +15,14 @@
     public int PostId { get; set; }
     private IEnumerable<CommentDto> Comments { get; set; } = new List<CommentDto>();
 
-   protected override async Task OnInitializedAsync()
+    protected override async Task OnInitializedAsync()
     {
         Comments = await CommentService.ListByPostId(PostId);
+    }
+
+    private async Task DeleteComment(CommentDto comment)
+    {
+        await CommentService.Delete(comment.Id);
+        Comments = Comments.Where(x => x.Id != comment.Id);
     }
 }
