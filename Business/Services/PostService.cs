@@ -48,7 +48,7 @@ namespace Business.Services
 
         public async Task<IEnumerable<PostDto>> List()
         {
-            var dbPosts = await _db.Posts.ToListAsync();
+            var dbPosts = await _db.Posts.Include(x => x.Comments).ToListAsync();
             return dbPosts.Select(x => PostMapper.Map(x));
         }
 

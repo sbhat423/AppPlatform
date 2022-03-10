@@ -16,5 +16,6 @@ namespace Models.DTOs.Post
         [Required(ErrorMessage = "Please provide a description")]
         public string Description { get; set; }
         public Guid AuthorId { get; set; }
+        public int CommentsCount { get; set; }
     }
 }

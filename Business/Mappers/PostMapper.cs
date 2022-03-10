@@ -28,6 +28,7 @@ namespace Business.Mappers
                 Name = post.Name,
                 Description = post.Description,
                 AuthorId = post.AuthorId,
+                CommentsCount = post.Comments.Count(),
             };
         }
     }
