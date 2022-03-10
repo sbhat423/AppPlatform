@@ -1,0 +1,20 @@
+﻿@using Models.DTOs.Comment
+
+@inject ICommentDataService CommentService
+@inject NavigationManager NavigationManager
+
+@foreach (var comment in Comments)
+{
+    <p>@comment.Content</p>
+}
+
+@code {
+    [Parameter]
+    public int PostId { get; set; }
+    private IEnumerable<CommentDto> Comments { get; set; } = new List<CommentDto>();
+
+   protected override async Task OnInitializedAsync()
+    {
+        Comments = await CommentService.ListByPostId(PostId);
+    }
+}

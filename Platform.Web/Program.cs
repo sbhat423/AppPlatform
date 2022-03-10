@@ -7,12 +7,14 @@ using DataAccess.Data;
 using DataAccess.Models;
 using Platform.Web.Services.Interfaces;
 using Platform.Web.Services;
+using DataAccess.DataServices;
+using Business.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("ApplicationDbContextConnection");
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString));
+    options.UseSqlServer(connectionString), ServiceLifetime.Transient);
 
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -20,8 +22,9 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddDefaultUI();
 
 // Add services to the container.
-
 builder.Services.AddScoped<IDbInitializer, DbInitializer>();
+builder.Services.AddTransient<IPostDataService, PostService>();
+builder.Services.AddTransient<ICommentDataService, CommentService>();
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<WeatherForecastService>();

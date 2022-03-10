@@ -1,0 +1,40 @@
+﻿@page "/posts"
+
+@using Models.DTOs.Post
+@using Platform.Web.Shared.Components;
+
+@inject IPostDataService PostService
+@inject NavigationManager NavigationManager
+
+@foreach (var Post in Posts)
+{
+    <div class="card m-4" style="width: 18rem;">
+        <img class="card-img-top"
+         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAeh-_7gr6Cghd_D4YtbNZhEuP67fGjOYk5xIKpHrncu7KwJyOea0aM_XfMmG_mKPekPw&usqp=CAU"
+         alt="Card image cap">
+        <div class="card-body">
+            <p class="card-text">@Post.Name</p>
+            <p class="card-text">@Post.Description</p>
+        </div>
+    </div>
+
+    <CommentList PostId="Post.Id" />
+    <CommentCreate PostId="Post.Id" />
+}
+
+<button class="btn btn-primary" @onclick="CreatePost">Create</button>
+
+@code {
+    private IEnumerable<PostDto> Posts { get; set; } = new List<PostDto>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Posts = await PostService.List();
+    }
+
+    private void CreatePost()
+    {
+        NavigationManager.NavigateTo("/post/create");
+    }
+
+}

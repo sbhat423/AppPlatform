@@ -1,0 +1,25 @@
+﻿@using Models.DTOs.Comment
+
+@inject ICommentDataService CommentService
+@inject NavigationManager NavigationManager
+
+<EditForm Model="Comment" OnSubmit="CreateComment">
+    <div class="form-group">
+        <InputTextArea @bind-Value="Comment.Content" class="form-control"></InputTextArea>
+        <div class="form-group">
+            <NavLink href="posts" class="btn btn-secondary">Cancel</NavLink>
+            <button type="submit" class="btn btn-primary">Add Comment</button>
+        </div>
+    </div>
+</EditForm>
+
+@code {
+    [Parameter]
+    public int PostId { get; set; }
+    private CommentDto Comment { get; set; } = new CommentDto();
+
+    private async Task CreateComment()
+    {
+        await CommentService.Create(PostId, Comment);
+    }
+}

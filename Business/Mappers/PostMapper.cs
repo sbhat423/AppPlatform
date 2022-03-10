@@ -24,6 +24,7 @@ namespace Business.Mappers
         {
             return new PostDto
             {
+                Id = post.Id,
                 Name = post.Name,
                 Description = post.Description,
                 AuthorId = post.AuthorId,

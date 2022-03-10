@@ -1,8 +1,41 @@
 ﻿@page "/post/create"
+
+@using Models.DTOs.Post
+
+@inject IPostDataService PostService
+@inject NavigationManager NavigationManager
+
 @attribute [Authorize]
 
-<h3>PostCreate</h3>
+<div class="row mt-2 mb-5">
+    <h3 class="card-title text-info mb-3 ml-3">Create Post</h3>
+    <div class="card-body">
+        <EditForm Model="PostDto" OnValidSubmit="CreatePost">
+            <DataAnnotationsValidator />
+            <div class="form-group">
+                <label>Title</label>
+                <InputText @bind-Value="PostDto.Name" class="form-control"></InputText>
+                <ValidationMessage For="()=>PostDto.Name"></ValidationMessage>
+            </div>
+            <div class="form-group">
+                <label>Description</label>
+                <InputTextArea @bind-Value="PostDto.Description" class="form-control"></InputTextArea>
+                <ValidationMessage For="()=>PostDto.Description"></ValidationMessage>
+            </div>
+            <div class="form-group">
+                <NavLink href="posts" class="btn btn-secondary">Cancel</NavLink>
+                <button type="submit" class="btn btn-primary">Create</button>
+            </div>
+        </EditForm>
+    </div>
+</div>
 
 @code {
+    private PostDto PostDto { get; set; } = new PostDto();
 
+    private async Task CreatePost()
+    {
+        await PostService.Create(PostDto);
+        NavigationManager.NavigateTo("posts");
+    }
 }

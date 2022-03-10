@@ -9,9 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Business", "Business\Busine
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccess", "DataAccess\DataAccess.csproj", "{EB15CB7E-B0BB-486D-9AE4-9953ADFD3EB5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Platform.API", "Platform.API\Platform.API.csproj", "{A5903265-3121-492A-9E39-9A8746B40356}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Platform.API", "Platform.API\Platform.API.csproj", "{A5903265-3121-492A-9E39-9A8746B40356}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "Models\Models.csproj", "{6AB67EA5-EFE8-476C-8B7C-17A9315C88F5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Models", "Models\Models.csproj", "{6AB67EA5-EFE8-476C-8B7C-17A9315C88F5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

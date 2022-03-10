@@ -9,11 +9,12 @@ namespace Models.DTOs.Post
 {
     public class PostDto
     {
-        [Required]
+        public int Id { get; set; }
+        [Required(ErrorMessage = "Please provide a title")]
         public string Name { get; set; }
-        [Required]
+
+        [Required(ErrorMessage = "Please provide a description")]
         public string Description { get; set; }
-        [Required]
         public Guid AuthorId { get; set; }
     }
 }
