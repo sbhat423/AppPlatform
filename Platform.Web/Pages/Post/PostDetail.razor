@@ -1,0 +1,36 @@
+﻿@page "/posts/{Id:int}"
+
+@using Models.DTOs.Post
+@using Platform.Web.Shared.Components;
+
+@inject IPostDataService PostService
+@inject NavigationManager NavigationManager
+
+@if (Post != null)
+{
+    <div class="card m-4" style="width: 18rem;">
+        <img class="card-img-top"
+         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAeh-_7gr6Cghd_D4YtbNZhEuP67fGjOYk5xIKpHrncu7KwJyOea0aM_XfMmG_mKPekPw&usqp=CAU"
+         alt="Card image cap">
+        <div class="card-body">
+            <p class="card-text">@Post.Name</p>
+            <p class="card-text">@Post.Description</p>
+        </div>
+        <p>comments: @Post.CommentsCount</p>
+        <p>like: @Post.Likes</p>
+    </div>
+
+    <CommentList PostId="Post.Id" />
+}
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    private PostDto Post { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Post = await PostService.Get(Id);
+    }
+}

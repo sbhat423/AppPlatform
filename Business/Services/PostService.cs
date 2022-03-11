@@ -37,7 +37,11 @@ namespace Business.Services
 
         public async Task<PostDto> Get(int id)
         {
-            var dbPost = await _db.Posts.FindAsync(id);
+            var dbPost = await _db.Posts
+                .Include(x => x.Comments)
+                .Include(x => x.PostLikes)
+                .FirstOrDefaultAsync(x => x.Id == id);
+
             if (dbPost == null)
             {
                 throw new Exception("Post for the given Id not found");

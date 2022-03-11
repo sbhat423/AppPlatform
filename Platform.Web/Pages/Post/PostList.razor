@@ -9,7 +9,7 @@
 
 @foreach (var Post in Posts)
 {
-    <div class="card m-4" style="width: 18rem;">
+    <div class="card m-4" style="width: 18rem;" @onclick="() => ViewPost(Post.Id)">
         <img class="card-img-top"
          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAeh-_7gr6Cghd_D4YtbNZhEuP67fGjOYk5xIKpHrncu7KwJyOea0aM_XfMmG_mKPekPw&usqp=CAU"
          alt="Card image cap">
@@ -40,6 +40,11 @@
     private void CreatePost()
     {
         NavigationManager.NavigateTo("/post/create");
+    }
+
+    private void ViewPost(int id)
+    {
+        NavigationManager.NavigateTo($"/posts/{id}");
     }
 
     private async Task LikePost(int PostId)
