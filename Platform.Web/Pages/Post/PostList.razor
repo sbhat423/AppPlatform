@@ -54,6 +54,6 @@
     private async Task LikePost(int PostId)
     {
         var userId = await AuthService.GetUserId();
-        await PostLikeService.Like(PostId, userId);
+        await PostLikeService.LikeUnlike(PostId, userId);
     }
 }
