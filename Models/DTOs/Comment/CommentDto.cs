@@ -12,5 +12,6 @@ namespace Models.DTOs.Comment
         public int PostId { get; set; }
         public string Content { get; set; }
         public Guid CreatedBy { get; set; }
+        public int Likes { get; set; }
     }
 }

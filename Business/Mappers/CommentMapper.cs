@@ -23,6 +23,7 @@ namespace Business.Mappers
                 PostId = comment.PostId,
                 Content = comment.Content,
                 CreatedBy = comment.CreatedBy,
+                Likes = comment.CommentLikes.Count(),
             };
         }
     }

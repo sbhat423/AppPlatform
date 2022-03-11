@@ -36,7 +36,10 @@ namespace Business.Services
 
         public async Task<IEnumerable<CommentDto>> ListByPostId(int postId)
         {
-            var dbComments = await _db.Comments.Where(x => x.PostId == postId).ToListAsync();
+            var dbComments = await _db.Comments
+                .Where(x => x.PostId == postId)
+                .Include(x => x.CommentLikes)
+                .ToListAsync();
             return dbComments.Select(x => CommentMapper.Map(x));
         }
 

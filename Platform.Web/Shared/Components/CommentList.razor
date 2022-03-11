@@ -1,12 +1,18 @@
 ﻿@using Models.DTOs.Comment
+@using Platform.Web.Services.Interfaces
 
 @inject ICommentDataService CommentService
+@inject ICommentLikeService CommentLikeService
 @inject NavigationManager NavigationManager
+@inject IAuthService AuthService
 
 @foreach (var comment in Comments)
 {
     <p>@comment.Content</p>
+    <p>likes: @comment.Likes</p>
+
     <button class="btn btn-danger" @onclick="() => DeleteComment(comment)">Delete</button>
+    <button class="btn btn-primary" @onclick="() => LikeUnlike(comment)">Like</button>
 
 }
 
@@ -24,5 +30,11 @@
     {
         await CommentService.Delete(comment.Id);
         Comments = Comments.Where(x => x.Id != comment.Id);
+    }
+
+    private async Task LikeUnlike(CommentDto comment)
+    {
+        var userId = await AuthService.GetUserId();
+        await CommentLikeService.LikeUnlike(comment.Id, userId);
     }
 }
