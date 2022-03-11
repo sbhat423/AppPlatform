@@ -4,6 +4,7 @@
 @using Platform.Web.Shared.Components;
 
 @inject IPostDataService PostService
+@inject IPostLikeService PostLikeService
 @inject NavigationManager NavigationManager
 
 @foreach (var Post in Posts)
@@ -17,7 +18,10 @@
             <p class="card-text">@Post.Description</p>
         </div>
         <p>comments: @Post.CommentsCount</p>
+        <p>like: @Post.Likes</p>
     </div>
+
+    <button class="btn btn-primary" @onclick="() => LikePost(Post.Id)">Like</button>
 
     <CommentList PostId="Post.Id" />
     <CommentCreate PostId="Post.Id" />
@@ -38,4 +42,8 @@
         NavigationManager.NavigateTo("/post/create");
     }
 
+    private async Task LikePost(int PostId)
+    {
+        await PostLikeService.Like(PostId, Guid.Empty);
+    }
 }

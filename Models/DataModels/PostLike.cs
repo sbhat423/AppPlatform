@@ -6,16 +6,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataAccess.Model
+namespace Models.DataModels
 {
-    public class CommentLike
+    public class PostLike
     {
         [Key]
         [Column(Order = 1)]
-        public int CommentId { get; set; }
+        public int PostId { get; set; }
         [Key]
         [Column(Order = 2)]
-        public Guid CommentedBy { get; set; }
+        public Guid LikeBy { get; set; }
         public DateTime LikedOn { get; set; } = DateTime.UtcNow;
     }
 }

@@ -1,10 +1,5 @@
-﻿using DataAccess.Model;
+﻿using Models.DataModels;
 using Models.DTOs.Post;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Business.Mappers
 {
@@ -29,6 +24,7 @@ namespace Business.Mappers
                 Description = post.Description,
                 AuthorId = post.AuthorId,
                 CommentsCount = post.Comments.Count(),
+                Likes = post.PostLikes.Count(),
             };
         }
     }

@@ -17,5 +17,6 @@ namespace Models.DTOs.Post
         public string Description { get; set; }
         public Guid AuthorId { get; set; }
         public int CommentsCount { get; set; }
+        public int Likes { get; set; }
     }
 }

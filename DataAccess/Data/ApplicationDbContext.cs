@@ -1,13 +1,8 @@
-﻿using DataAccess.Model;
-using DataAccess.Models;
+﻿using DataAccess.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Models.DataModels;
 
 namespace DataAccess.Data
 {
@@ -23,7 +18,7 @@ namespace DataAccess.Data
             base.OnModelCreating(builder);
 
             builder.Entity<PostLike>().HasKey(postLike => new { postLike.PostId, postLike.LikeBy });
-            builder.Entity<CommentLike>().HasKey(commentLike => new { commentLike.CommentId, commentLike.CommentedBy});
+            builder.Entity<CommentLike>().HasKey(commentLike => new { commentLike.CommentId, commentLike.CommentedBy });
         }
 
         public DbSet<ApplicationUser> ApplicationUser { get; set; }
