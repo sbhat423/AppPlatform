@@ -1,9 +1,11 @@
 ﻿@page "/post/create"
 
 @using Models.DTOs.Post
+@using Platform.Web.Services.Interfaces
 
 @inject IPostDataService PostService
 @inject NavigationManager NavigationManager
+@inject IAuthService AuthService
 
 @attribute [Authorize]
 
@@ -35,6 +37,7 @@
 
     private async Task CreatePost()
     {
+        PostDto.AuthorId = await AuthService.GetUserId();
         await PostService.Create(PostDto);
         NavigationManager.NavigateTo("posts");
     }

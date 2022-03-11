@@ -1,11 +1,15 @@
 ﻿@page "/posts"
 
 @using Models.DTOs.Post
+@using Platform.Web.Services.Interfaces
 @using Platform.Web.Shared.Components;
 
 @inject IPostDataService PostService
 @inject IPostLikeService PostLikeService
 @inject NavigationManager NavigationManager
+@inject IAuthService AuthService
+
+@attribute [Authorize]
 
 @foreach (var Post in Posts)
 {
@@ -49,6 +53,7 @@
 
     private async Task LikePost(int PostId)
     {
-        await PostLikeService.Like(PostId, Guid.Empty);
+        var userId = await AuthService.GetUserId();
+        await PostLikeService.Like(PostId, userId);
     }
 }

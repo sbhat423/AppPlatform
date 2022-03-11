@@ -55,6 +55,7 @@ namespace Business.Services
             var dbPosts = await _db.Posts
                 .Include(x => x.Comments)
                 .Include(x => x.PostLikes)
+                .OrderByDescending(x => x.CreatedOn)
                 .ToListAsync();
             return dbPosts.Select(x => PostMapper.Map(x));
         }

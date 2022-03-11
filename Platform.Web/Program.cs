@@ -26,6 +26,7 @@ builder.Services.AddScoped<IDbInitializer, DbInitializer>();
 builder.Services.AddTransient<IPostDataService, PostService>();
 builder.Services.AddTransient<ICommentDataService, CommentService>();
 builder.Services.AddTransient<IPostLikeService, PostLikeService>();
+builder.Services.AddTransient<IAuthService, AuthService>();
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<WeatherForecastService>();

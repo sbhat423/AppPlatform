@@ -1,7 +1,9 @@
 ﻿@using Models.DTOs.Comment
+@using Platform.Web.Services.Interfaces
 
 @inject ICommentDataService CommentService
 @inject NavigationManager NavigationManager
+@inject IAuthService AuthService
 
 <EditForm Model="Comment" OnSubmit="CreateComment">
     <div class="form-group">
@@ -20,6 +22,7 @@
 
     private async Task CreateComment()
     {
+        Comment.CreatedBy = await AuthService.GetUserId();
         await CommentService.Create(PostId, Comment);
     }
 }
