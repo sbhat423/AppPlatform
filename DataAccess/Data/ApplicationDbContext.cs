@@ -27,5 +27,6 @@ namespace DataAccess.Data
         public DbSet<Comment> Comments { get; set; }
         public DbSet<PostLike> PostLikes { get; set; }
         public DbSet<CommentLike> CommentLikes { get; set; }
+        public DbSet<SubComment> SubComments { get; set; }
     }
 }
