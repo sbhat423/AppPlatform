@@ -1,0 +1,29 @@
+﻿@using Models.DTOs.SubComment
+@using Platform.Web.Services.Interfaces
+
+@inject ISubCommentService SubCommentService
+@inject IAuthService AuthService
+
+<EditForm Model="SubComment" OnSubmit="CreateSubComment">
+    <div class="form-group">
+        <InputTextArea @bind-Value="SubComment.Content" class="form-control"></InputTextArea>
+        <div class="form-group">
+            <NavLink href="posts" class="btn btn-secondary">Cancel</NavLink>
+            <button type="submit" class="btn btn-primary">Add SubComment</button>
+        </div>
+    </div>
+</EditForm>
+
+@code {
+    [Parameter]
+    public int CommentId { get; set; }
+    private SubCommentDto SubComment { get; set; } = new SubCommentDto();
+
+    private async Task CreateSubComment()
+    {
+        var userId = await AuthService.GetUserId();
+        SubComment.CommentId = CommentId;
+        SubComment.CreatedBy = userId;
+        await SubCommentService.Create(SubComment);
+    }
+}

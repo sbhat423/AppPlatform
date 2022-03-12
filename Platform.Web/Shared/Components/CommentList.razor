@@ -1,5 +1,6 @@
 ﻿@using Models.DTOs.Comment
 @using Platform.Web.Services.Interfaces
+@using Platform.Web.Shared.Components;
 
 @inject ICommentDataService CommentService
 @inject ICommentLikeService CommentLikeService
@@ -13,6 +14,13 @@
 
     <button class="btn btn-danger" @onclick="() => DeleteComment(comment)">Delete</button>
     <button class="btn btn-primary" @onclick="() => LikeUnlike(comment)">Like</button>
+
+    <div class="row">
+        <div class="offset-sm-1">
+            <SubCommentList CommentId="comment.Id" />
+            <SubCommentCreate CommentId="comment.Id" />
+        </div>
+    </div>
 
 }
 

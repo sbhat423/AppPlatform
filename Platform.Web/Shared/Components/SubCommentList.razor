@@ -1,0 +1,39 @@
+﻿@using Models.DTOs.SubComment
+@using Platform.Web.Services.Interfaces
+@using Platform.Web.Shared.Components;
+
+@inject ISubCommentService SubCommentService
+@inject ICommentLikeService CommentLikeService
+@inject NavigationManager NavigationManager
+@inject IAuthService AuthService
+
+@foreach (var subComment in SubComments)
+{
+    <p>@subComment.Content</p>
+
+    <button class="btn btn-danger" @onclick="() => DeleteComment(subComment)">Delete</button>
+    <button class="btn btn-primary" @onclick="() => LikeUnlike(subComment)">Like</button>
+}
+
+@code {
+    [Parameter]
+    public int CommentId { get; set; }
+    private IEnumerable<SubCommentDto> SubComments { get; set; } = new List<SubCommentDto>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        SubComments = await SubCommentService.List(CommentId);
+    }
+
+    private async Task DeleteComment(SubCommentDto subComment)
+    {
+        await SubCommentService.Delete(subComment.Id);
+        SubComments = SubComments.Where(x => x.Id != subComment.Id);
+    }
+
+    private async Task LikeUnlike(SubCommentDto comment)
+    {
+        var userId = await AuthService.GetUserId();
+        await CommentLikeService.LikeUnlike(comment.Id, userId);
+    }
+}
