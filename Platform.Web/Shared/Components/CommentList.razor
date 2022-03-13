@@ -12,8 +12,16 @@
     <p>@comment.Content</p>
     <p>likes: @comment.Likes</p>
 
-    <button class="btn btn-danger" @onclick="() => DeleteComment(comment)">Delete</button>
-    <button class="btn btn-primary" @onclick="() => LikeUnlike(comment)">Like</button>
+    @if (comment.CreatedBy == CurrentUserId)
+    {
+        <button class="btn btn-sm btn-danger" @onclick="() => DeleteComment(comment)">
+            <i class="fa fa-trash"></i>
+        </button>
+    }
+
+    <button class="btn btn-sm btn-primary m-2" @onclick="() => LikeUnlike(comment)">
+        <i class="fa fa-thumbs-up"></i>
+    </button>
 
     <div class="row">
         <div class="offset-sm-1">
@@ -21,16 +29,19 @@
             <SubCommentCreate CommentId="comment.Id" />
         </div>
     </div>
-
 }
 
 @code {
     [Parameter]
     public int PostId { get; set; }
     private IEnumerable<CommentDto> Comments { get; set; } = new List<CommentDto>();
+    private bool canDelete { get; set; } = false;
+
+    private Guid CurrentUserId { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
+        CurrentUserId = await AuthService.GetUserId();
         Comments = await CommentService.ListByPostId(PostId);
     }
 
@@ -42,7 +53,6 @@
 
     private async Task LikeUnlike(CommentDto comment)
     {
-        var userId = await AuthService.GetUserId();
-        await CommentLikeService.LikeUnlike(comment.Id, userId);
+        await CommentLikeService.LikeUnlike(comment.Id, CurrentUserId);
     }
 }

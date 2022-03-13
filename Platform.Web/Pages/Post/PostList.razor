@@ -21,14 +21,17 @@
             <p class="card-text">@Post.Name</p>
             <p class="card-text">@Post.Description</p>
         </div>
-        <p>comments: @Post.CommentsCount</p>
-        <p>like: @Post.Likes</p>
+        <div class="row">
+            <div class="col-sm-6">
+                <p>comments: @Post.CommentsCount</p>
+            </div>
+            <div class="col-sm-6">
+                <p>likes: @Post.Likes</p>
+            </div>
+        </div>
     </div>
 
     <button class="btn btn-primary" @onclick="() => LikePost(Post.Id)">Like</button>
-
-    <CommentList PostId="Post.Id" />
-    <CommentCreate PostId="Post.Id" />
 }
 
 <button class="btn btn-primary" @onclick="CreatePost">Create</button>
