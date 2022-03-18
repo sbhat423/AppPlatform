@@ -28,6 +28,7 @@ builder.Services.AddTransient<ICommentDataService, CommentService>();
 builder.Services.AddTransient<IPostLikeService, PostLikeService>();
 builder.Services.AddTransient<ICommentLikeService, CommentLikeService>();
 builder.Services.AddTransient<ISubCommentService, SubCommentService>();
+builder.Services.AddTransient<IUserProfileService, UserProfileService>();
 builder.Services.AddTransient<IAuthService, AuthService>();
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();

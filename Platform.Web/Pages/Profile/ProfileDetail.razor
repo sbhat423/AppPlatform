@@ -1,0 +1,44 @@
+﻿@page "/profile"
+
+@using Models.DTOs.UserProfile
+@using Platform.Web.Services.Interfaces
+
+@inject IUserProfileService ProfileService
+@inject IAuthService AuthService
+@inject NavigationManager NavManager
+
+@attribute [Authorize]
+
+@if (UserProfile != null)
+{
+    <div class="card m-4" style="width: 18rem;">
+        <img class="card-img-top"
+         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAeh-_7gr6Cghd_D4YtbNZhEuP67fGjOYk5xIKpHrncu7KwJyOea0aM_XfMmG_mKPekPw&usqp=CAU"
+         alt="Card image cap">
+        <div class="card-body">
+            <p class="card-text">@UserProfile.FirstName</p>
+            <p class="card-text">@UserProfile.LastName</p>
+            <p class="card-text">@UserProfile.Bio</p>
+        </div>
+    </div>
+
+    <button class="btn btn-primary" @onclick=Edit>Edit</button>
+}
+
+
+@code {
+    private UserProfileDto UserProfile { get; set; }
+
+    private Guid UserId { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        UserId = await AuthService.GetUserId();
+        UserProfile = await ProfileService.Get(UserId.ToString());
+    }
+
+    private void Edit()
+    {
+        NavManager.NavigateTo($"profiles/{UserId.ToString()}");
+    }
+}
