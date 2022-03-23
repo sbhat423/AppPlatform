@@ -17,6 +17,7 @@ namespace Models.DataModels
         public string Description { get; set; }
         [Required]
         public Guid AuthorId { get; set; }
+        public string Image { get; set; }
         public DateTime CreatedOn { get; set; } = DateTime.UtcNow;
         public DateTime UpdatedOn { get; set; }
         public bool IsFlagged { get; set; } = false;

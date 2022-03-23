@@ -14,9 +14,12 @@
 @foreach (var Post in Posts)
 {
     <div class="card m-4" style="width: 18rem;" @onclick="() => ViewPost(Post.Id)">
-        <img class="card-img-top"
-         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAeh-_7gr6Cghd_D4YtbNZhEuP67fGjOYk5xIKpHrncu7KwJyOea0aM_XfMmG_mKPekPw&usqp=CAU"
+        @if (!string.IsNullOrEmpty(Post.Image))
+        {
+            <img class="card-img-top"
+         src="@Post.Image"
          alt="Card image cap">
+        }
         <div class="card-body">
             <p class="card-text">@Post.Name</p>
             <p class="card-text">@Post.Description</p>

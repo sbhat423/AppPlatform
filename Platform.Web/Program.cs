@@ -9,6 +9,7 @@ using Platform.Web.Services.Interfaces;
 using Platform.Web.Services;
 using DataAccess.DataServices;
 using Business.Services;
+using Business.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("ApplicationDbContextConnection");
@@ -30,6 +31,7 @@ builder.Services.AddTransient<ICommentLikeService, CommentLikeService>();
 builder.Services.AddTransient<ISubCommentService, SubCommentService>();
 builder.Services.AddTransient<IUserProfileService, UserProfileService>();
 builder.Services.AddTransient<IAuthService, AuthService>();
+builder.Services.AddTransient<IFileStorageService, AzureStorageService>();
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<WeatherForecastService>();

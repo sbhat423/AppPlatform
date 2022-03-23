@@ -1,8 +1,10 @@
 ﻿@page "/profiles/{UserId}"
 
+@using Business.Interfaces
 @using Models.DTOs.UserProfile
-@inject IUserProfileService ProfileService
+@using Platform.Web.Shared.Components
 
+@inject IUserProfileService ProfileService
 @inject NavigationManager NavManager
 
 @attribute [Authorize]
@@ -27,6 +29,9 @@
             <NavLink href="profile" class="btn btn-secondary">Cancel</NavLink>
             <button type="submit" class="btn btn-primary">Update</button>
         </div>
+
+        <InputImage Label="Upload Image" OnSelectedImage="OnSelectedImage"/>
+      
     </EditForm>
 }
 
@@ -36,6 +41,7 @@
 
     private UserProfileDto UserProfile { get; set; }
 
+
     protected override async Task OnInitializedAsync()
     {
         UserProfile = await ProfileService.Get(UserId);
@@ -44,5 +50,10 @@
     private async Task UpdateProfile()
     {
         await ProfileService.Update(UserId, UserProfile);
+    }
+
+    private void OnSelectedImage(string imageBase64)
+    {
+        UserProfile.ImageContent = Convert.FromBase64String(imageBase64);
     }
 }

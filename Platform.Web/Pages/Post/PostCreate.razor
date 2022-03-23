@@ -2,6 +2,7 @@
 
 @using Models.DTOs.Post
 @using Platform.Web.Services.Interfaces
+@using Platform.Web.Shared.Components
 
 @inject IPostDataService PostService
 @inject NavigationManager NavigationManager
@@ -28,6 +29,8 @@
                 <NavLink href="posts" class="btn btn-secondary">Cancel</NavLink>
                 <button type="submit" class="btn btn-primary">Create</button>
             </div>
+
+             <InputImage Label="Upload Image" OnSelectedImage="OnSelectedImage"/>
         </EditForm>
     </div>
 </div>
@@ -40,5 +43,10 @@
         PostDto.AuthorId = await AuthService.GetUserId();
         await PostService.Create(PostDto);
         NavigationManager.NavigateTo("posts");
+    }
+
+     private void OnSelectedImage(string imageBase64)
+    {
+        PostDto.ImageContent = Convert.FromBase64String(imageBase64);
     }
 }

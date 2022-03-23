@@ -12,6 +12,7 @@ namespace Business.Mappers
                 Name = postDto.Name,
                 Description = postDto.Description,
                 AuthorId = postDto.AuthorId,
+                Image = postDto.Image,
             };
         }
 
@@ -22,9 +23,10 @@ namespace Business.Mappers
                 Id = post.Id,
                 Name = post.Name,
                 Description = post.Description,
+                Image = post.Image,
                 AuthorId = post.AuthorId,
-                CommentsCount = post.Comments.Count(),
-                Likes = post.PostLikes.Count(),
+                CommentsCount = post.Comments == null ? 0 : post.Comments.Count(),
+                Likes = post.PostLikes == null ? 0 : post.PostLikes.Count(),
             };
         }
     }

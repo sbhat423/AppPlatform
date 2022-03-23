@@ -1,4 +1,5 @@
-﻿using Business.Mappers;
+﻿using Business.Interfaces;
+using Business.Mappers;
 using DataAccess.Data;
 using DataAccess.DataServices;
 using Microsoft.EntityFrameworkCore;
@@ -9,18 +10,34 @@ namespace Business.Services
     public class PostService : IPostDataService
     {
         private readonly ApplicationDbContext _db;
+        private readonly IFileStorageService _azureStorageService;
 
-        public PostService(ApplicationDbContext db)
+        public PostService(ApplicationDbContext db,
+            IFileStorageService azureStorageService)
         {
             _db = db;
+            _azureStorageService = azureStorageService;
         }
 
         public async Task<PostDto> Create(PostDto postDto)
         {
-            var dbPost = PostMapper.Map(postDto);
-            await _db.Posts.AddAsync(dbPost);
-            await _db.SaveChangesAsync();
-            return PostMapper.Map(dbPost);
+            try
+            {
+                if (postDto.ImageContent != null)
+                {
+                    postDto.Image = await _azureStorageService.SaveFile(postDto.ImageContent, ".jpg", "posts");
+                }
+
+                var dbPost = PostMapper.Map(postDto);
+                await _db.Posts.AddAsync(dbPost);
+                await _db.SaveChangesAsync();
+                return PostMapper.Map(dbPost);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public async Task Delete(int id)

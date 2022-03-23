@@ -15,5 +15,6 @@ namespace Models.DTOs.UserProfile
         public string Bio { get; set; }
         public DateTime CreateOn { get; set; } = DateTime.UtcNow;
         public DateTime? UpdatedOn { get; set; }
+        public byte[] ImageContent { get; set; }
     }
 }
