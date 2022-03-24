@@ -34,7 +34,7 @@
     protected override async Task OnInitializedAsync()
     {
         UserId = await AuthService.GetUserId();
-        UserProfile = await ProfileService.Get(UserId.ToString());
+        UserProfile = await ProfileService.Get(UserId);
     }
 
     private void Edit()

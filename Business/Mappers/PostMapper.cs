@@ -1,4 +1,4 @@
-﻿using Models.DataModels;
+﻿using DataAccess.DataModels;
 using Models.DTOs.Post;
 
 namespace Business.Mappers
@@ -27,6 +27,7 @@ namespace Business.Mappers
                 AuthorId = post.AuthorId,
                 CommentsCount = post.Comments == null ? 0 : post.Comments.Count(),
                 Likes = post.PostLikes == null ? 0 : post.PostLikes.Count(),
+                Author = UserProfilesMapper.Map(post.Author),
             };
         }
     }

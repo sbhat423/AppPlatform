@@ -2,6 +2,7 @@
 using Business.Mappers;
 using DataAccess.Data;
 using DataAccess.DataServices;
+using Microsoft.AspNetCore.Identity;
 using Models.DTOs.UserProfile;
 
 namespace Business.Services
@@ -9,16 +10,19 @@ namespace Business.Services
     public class UserProfileService : IUserProfileService
     {
         private readonly ApplicationDbContext _db;
+        private readonly UserManager<IdentityUser> _userManager;
         private readonly IFileStorageService _azureStorageService;
 
         public UserProfileService(ApplicationDbContext db,
+            UserManager<IdentityUser> userManager,
             IFileStorageService azureStorageService)
         {
             _db = db;
+            _userManager = userManager;
             _azureStorageService = azureStorageService;
         }
 
-        public async Task<UserProfileDto> Create(string userId, UserProfileDto userProfileDto)
+        public async Task<UserProfileDto> Create(Guid userId, UserProfileDto userProfileDto)
         {
             try
             {
@@ -37,18 +41,31 @@ namespace Business.Services
             }
         }
 
-        public async Task<UserProfileDto> Get(string userId)
+        public async Task<UserProfileDto> Get(Guid userId)
         {
             var dbUserProfile = await _db.UserProfiles.FindAsync(userId);
             if (dbUserProfile == null)
             {
-                throw new Exception("UserProfileId not found");
+                // if user profile is not created for the registered user, then create it
+                var user = await _userManager.FindByIdAsync(userId.ToString());
+                if (user != null)
+                {
+                    var userProfile = new UserProfileDto
+                    {
+                        FirstName = user.Email,
+                    };
+                    return await Create(userId, userProfile);
+                }
+                else
+                { 
+                    throw new Exception("UserProfileId not found");
+                }
             }
 
             return UserProfilesMapper.Map(dbUserProfile);
         }
 
-        public async Task<UserProfileDto> Update(string userId, UserProfileDto userProfileDto)
+        public async Task<UserProfileDto> Update(Guid userId, UserProfileDto userProfileDto)
         {
             var dbUserProfile = await _db.UserProfiles.FindAsync(userId);
             if (dbUserProfile == null)

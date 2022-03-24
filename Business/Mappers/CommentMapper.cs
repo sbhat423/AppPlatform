@@ -1,4 +1,4 @@
-﻿using Models.DataModels;
+﻿using DataAccess.DataModels;
 using Models.DTOs.Comment;
 
 namespace Business.Mappers
@@ -23,7 +23,8 @@ namespace Business.Mappers
                 PostId = comment.PostId,
                 Content = comment.Content,
                 CreatedBy = comment.CreatedBy,
-                Likes = comment.CommentLikes.Count(),
+                Likes = comment.CommentLikes == null ? 0 : comment.CommentLikes.Count(),
+                UserProfile = UserProfilesMapper.Map(comment.UserProfile),
             };
         }
     }

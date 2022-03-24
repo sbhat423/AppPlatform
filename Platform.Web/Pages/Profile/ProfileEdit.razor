@@ -19,7 +19,7 @@
         </div>
         <div class="form-group">
             <label>Last Name</label>
-            <InputText @bind-Value="UserProfile.FirstName" class="form-control"></InputText>
+            <InputText @bind-Value="UserProfile.LastName" class="form-control"></InputText>
         </div>
         <div class="form-group">
             <label>Bio</label>
@@ -44,12 +44,12 @@
 
     protected override async Task OnInitializedAsync()
     {
-        UserProfile = await ProfileService.Get(UserId);
+        UserProfile = await ProfileService.Get(new Guid(UserId));
     }
 
     private async Task UpdateProfile()
     {
-        await ProfileService.Update(UserId, UserProfile);
+        await ProfileService.Update(new Guid(UserId), UserProfile);
     }
 
     private void OnSelectedImage(string imageBase64)

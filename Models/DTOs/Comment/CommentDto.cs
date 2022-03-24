@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Models.DTOs.UserProfile;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,5 +14,6 @@ namespace Models.DTOs.Comment
         public string Content { get; set; }
         public Guid CreatedBy { get; set; }
         public int Likes { get; set; }
+        public UserProfileDto UserProfile { get; set; }
     }
 }

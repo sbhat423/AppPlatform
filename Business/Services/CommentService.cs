@@ -14,12 +14,24 @@ namespace Business.Services
         {
             _db = db;
         }
+
+        private async Task<CommentDto> Get(int id)
+        {
+            var dbComment = await _db.Comments.FindAsync(id);
+            if (dbComment == null)
+            {
+                throw new Exception("Comment with the given Id not found");
+            }
+            return CommentMapper.Map(dbComment);
+        }
+
         public async Task<CommentDto> Create(int postId, CommentDto commentDto)
         {
             var dbComment = CommentMapper.Map(postId, commentDto);
             await _db.Comments.AddAsync(dbComment);
             await _db.SaveChangesAsync();
-            return CommentMapper.Map(dbComment);
+            var newComment = await Get(dbComment.Id);
+            return newComment;
         }
 
         public async Task Delete(int id)
@@ -37,6 +49,7 @@ namespace Business.Services
         public async Task<IEnumerable<CommentDto>> ListByPostId(int postId)
         {
             var dbComments = await _db.Comments
+                .Include(x => x.UserProfile)
                 .Where(x => x.PostId == postId)
                 .Include(x => x.CommentLikes)
                 .ToListAsync();

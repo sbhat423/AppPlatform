@@ -9,6 +9,7 @@
 
 @foreach (var comment in Comments)
 {
+    <Avatar UserProfile="comment.UserProfile"/>
     <p>@comment.Content</p>
     <p>likes: @comment.Likes</p>
 

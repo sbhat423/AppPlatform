@@ -1,8 +1,8 @@
-﻿using DataAccess.Models;
+﻿using DataAccess.DataModels;
+using DataAccess.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Models.DataModels;
 
 namespace DataAccess.Data
 {
@@ -16,7 +16,6 @@ namespace DataAccess.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-
             builder.Entity<PostLike>().HasKey(postLike => new { postLike.PostId, postLike.LikeBy });
             builder.Entity<CommentLike>().HasKey(commentLike => new { commentLike.CommentId, commentLike.CommentedBy });
         }

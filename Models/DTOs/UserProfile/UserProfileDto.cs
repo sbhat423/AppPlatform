@@ -8,7 +8,8 @@ namespace Models.DTOs.UserProfile
 {
     public class UserProfileDto
     {
-        public string UserId { get; set; }
+        public Guid Id { get; set; }
+        public string IdentityUserId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string DisplayPic { get; set; }

@@ -4,6 +4,7 @@ using DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220324092626_MakePostImageNullable")]
+    partial class MakePostImageNullable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -53,8 +55,6 @@ namespace DataAccess.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CreatedBy");
 
                     b.HasIndex("PostId");
 
@@ -190,6 +190,7 @@ namespace DataAccess.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LastName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("UpdatedOn")
@@ -423,12 +424,6 @@ namespace DataAccess.Migrations
 
             modelBuilder.Entity("DataAccess.DataModels.Comment", b =>
                 {
-                    b.HasOne("DataAccess.DataModels.UserProfile", "UserProfile")
-                        .WithMany()
-                        .HasForeignKey("CreatedBy")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("DataAccess.DataModels.Post", "Post")
                         .WithMany("Comments")
                         .HasForeignKey("PostId")
@@ -436,8 +431,6 @@ namespace DataAccess.Migrations
                         .IsRequired();
 
                     b.Navigation("Post");
-
-                    b.Navigation("UserProfile");
                 });
 
             modelBuilder.Entity("DataAccess.DataModels.CommentLike", b =>

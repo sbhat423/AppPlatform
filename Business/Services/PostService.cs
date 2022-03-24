@@ -55,6 +55,7 @@ namespace Business.Services
         public async Task<PostDto> Get(int id)
         {
             var dbPost = await _db.Posts
+                .Include(x => x.Author)
                 .Include(x => x.Comments)
                 .Include(x => x.PostLikes)
                 .FirstOrDefaultAsync(x => x.Id == id);
@@ -70,6 +71,7 @@ namespace Business.Services
         public async Task<IEnumerable<PostDto>> List()
         {
             var dbPosts = await _db.Posts
+                .Include(x => x.Author)
                 .Include(x => x.Comments)
                 .Include(x => x.PostLikes)
                 .OrderByDescending(x => x.CreatedOn)

@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Models.DTOs.UserProfile;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Models.DTOs.Post
 {
@@ -20,5 +16,6 @@ namespace Models.DTOs.Post
         public int Likes { get; set; }
         public string Image { get; set; }
         public byte[] ImageContent { get; set; }
+        public UserProfileDto Author { get; set; }
     }
 }

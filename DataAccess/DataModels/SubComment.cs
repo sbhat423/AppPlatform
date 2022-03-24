@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Models.DataModels
+namespace DataAccess.DataModels
 {
     public class SubComment
     {
