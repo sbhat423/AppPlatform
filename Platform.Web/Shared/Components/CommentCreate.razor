@@ -5,24 +5,44 @@
 @inject NavigationManager NavigationManager
 @inject IAuthService AuthService
 
-<EditForm Model="Comment" OnSubmit="CreateComment">
+@if (!_displayEditor)
+{
     <div class="form-group">
-        <InputTextArea @bind-Value="Comment.Content" class="form-control"></InputTextArea>
-        <div class="form-group">
-            <NavLink href="posts" class="btn btn-secondary">Cancel</NavLink>
-            <button type="submit" class="btn btn-primary">Add Comment</button>
-        </div>
+        <button class="btn btn-primary" @onclick="DisplayEditor">Add Comment</button>
     </div>
-</EditForm>
+}
+else
+{
+    <EditForm Model="_comment" OnValidSubmit="CreateComment">
+        <div class="form-group">
+            <InputTextArea @bind-Value="_comment.Content" class="form-control"></InputTextArea>
+            <div class="form-group">
+                <button type="button" class="btn btn-secondary" @onclick="CloseEditor">Cancel</button>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+    </EditForm>
+}
 
 @code {
     [Parameter]
     public int PostId { get; set; }
-    private CommentDto Comment { get; set; } = new CommentDto();
+    private CommentDto _comment { get; set; } = new CommentDto();
+    private bool _displayEditor { get; set; } = false;
 
     private async Task CreateComment()
     {
-        Comment.CreatedBy = await AuthService.GetUserId();
-        await CommentService.Create(PostId, Comment);
+        _comment.CreatedBy = await AuthService.GetUserId();
+        await CommentService.Create(PostId, _comment);
+    }
+
+    private void DisplayEditor()
+    {
+        _displayEditor = true;
+    }
+
+    private void CloseEditor()
+    {
+        _displayEditor = false;
     }
 }
