@@ -1,0 +1,53 @@
+﻿@using Models.DTOs.UserProfile
+
+@if (UserProfile != null)
+{
+    <div class="row">
+        <div class="col-md-3">
+            <img src="@UserProfile.DisplayPic" alt="Avatar" style="width: 50px;
+          height: 50px; object-fit:cover; border-radius:50%; margin: 5px">
+        </div>
+        <div class="col-md-9">
+            <p>@UserProfile.FirstName</p>
+
+            @if (_time != string.Empty)
+            {
+                <p>@_time</p>
+            }
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public UserProfileDto UserProfile { get; set; }
+    [Parameter]
+    public DateTime ActionDateTime { get; set; }
+    private string _time { get; set; }
+
+    protected override void OnInitialized()
+    {
+        var currentDateTime = DateTime.Now;
+        var actionLocalDateTime = ActionDateTime.ToLocalTime();
+
+        var differenceInDays = (currentDateTime - actionLocalDateTime).Days;
+        var differenceInHours = (currentDateTime - actionLocalDateTime).Hours;
+        var differenceInMinutes = (currentDateTime - actionLocalDateTime).Minutes;
+
+        if (differenceInDays > 0)
+        {
+            var suffix = differenceInDays == 1 ? "day" : "days";
+            _time = $"{differenceInDays} {suffix}";
+        }
+        else if (differenceInHours > 0)
+        {
+            var suffix = differenceInHours == 1 ? "hour" : "hours";
+            _time = $"{differenceInHours} {suffix}";
+        }
+        else
+        {
+            var suffix = differenceInMinutes == 1 ? "minute" : "minutes";
+            _time = $"{differenceInMinutes} {suffix}";
+        }
+    }
+}

@@ -17,5 +17,6 @@ namespace Models.DTOs.Post
         public string Image { get; set; }
         public byte[] ImageContent { get; set; }
         public UserProfileDto Author { get; set; }
+        public DateTime CreatedOn { get; set; }
     }
 }

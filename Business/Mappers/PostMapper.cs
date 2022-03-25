@@ -28,6 +28,7 @@ namespace Business.Mappers
                 CommentsCount = post.Comments == null ? 0 : post.Comments.Count(),
                 Likes = post.PostLikes == null ? 0 : post.PostLikes.Count(),
                 Author = UserProfilesMapper.Map(post.Author),
+                CreatedOn = post.CreatedOn
             };
         }
     }

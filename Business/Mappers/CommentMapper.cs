@@ -23,6 +23,7 @@ namespace Business.Mappers
                 PostId = comment.PostId,
                 Content = comment.Content,
                 CreatedBy = comment.CreatedBy,
+                CreatedOn = comment.CreatedOn,
                 Likes = comment.CommentLikes == null ? 0 : comment.CommentLikes.Count(),
                 UserProfile = UserProfilesMapper.Map(comment.UserProfile),
             };

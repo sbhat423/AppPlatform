@@ -14,7 +14,7 @@
 @foreach (var Post in Posts)
 {
     <div class="card m-4" style="width: 18rem;" @onclick="() => ViewPost(Post.Id)">
-        <Avatar UserProfile="Post.Author"/>
+        <ProfileActionSummary UserProfile="Post.Author" ActionDateTime="Post.CreatedOn"/>
         @if (!string.IsNullOrEmpty(Post.Image))
         {
             <img class="card-img-top"

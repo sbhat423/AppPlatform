@@ -9,7 +9,7 @@
 
 @foreach (var comment in Comments)
 {
-    <Avatar UserProfile="comment.UserProfile"/>
+    <ProfileActionSummary UserProfile="comment.UserProfile" ActionDateTime="comment.CreatedOn"/>
     <p>@comment.Content</p>
     <p>likes: @comment.Likes</p>
 
