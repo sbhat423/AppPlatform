@@ -1,6 +1,7 @@
 ﻿using Business.Mappers;
 using DataAccess.Data;
 using DataAccess.DataServices;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,27 +19,29 @@ namespace Business.Services
             _db = db;
         }
 
-        public async Task LikeUnlike(int postId, Guid userId)
+        public async Task<int> LikeUnlike(int postId, Guid userId)
         {
             var isLiked = await IsLiked(postId, userId);
             if (isLiked)
             {
-                await UnLike(postId, userId);
+                return await UnLike(postId, userId);
             }
             else
             {
-                await Like(postId, userId);
+                return await Like(postId, userId);
             }
         }
 
-        private async Task Like(int commentId, Guid userId)
+        private async Task<int> Like(int commentId, Guid userId)
         {
             var dbCommentLike = CommentLikeMapper.Map(commentId, userId);
             _db.CommentLikes.Add(dbCommentLike);
             await _db.SaveChangesAsync();
+            return GetLikes(commentId);
+            
         }
 
-        private async Task UnLike(int commentId, Guid userId)
+        private async Task<int> UnLike(int commentId, Guid userId)
         {
             var dbCommentLike = await _db.CommentLikes.FindAsync(commentId, userId);
             if (dbCommentLike == null)
@@ -47,6 +50,7 @@ namespace Business.Services
             }
             _db.CommentLikes.Remove(dbCommentLike);
             await _db.SaveChangesAsync();
+            return GetLikes(commentId);
         }
 
 
@@ -58,6 +62,12 @@ namespace Business.Services
                 return true;
             }
             return false;
+        }
+
+        private int GetLikes(int commentId)
+        {
+            var dbLikes = _db.CommentLikes.Count(x => x.CommentId == commentId);
+            return dbLikes;
         }
     }
 }

@@ -49,7 +49,7 @@
 
     private async Task LikeUnlike()
     {
-        await CommentLikeService.LikeUnlike(Comment.Id, _currentUserId);
+        Comment.Likes = await CommentLikeService.LikeUnlike(Comment.Id, _currentUserId);
     }
 
     private void ToggleDisplaySubComments()
