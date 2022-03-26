@@ -6,38 +6,14 @@
 @using Platform.Web.Shared.Components.Comments
 
 @inject IPostDataService PostService
-@inject IPostLikeService PostLikeService
 @inject NavigationManager NavigationManager
 @inject IAuthService AuthService
 
 @attribute [Authorize]
 
-@foreach (var Post in Posts)
+@foreach (var post in Posts)
 {
-    <div class="card m-4" style="width: 18rem;" @onclick="() => ViewPost(Post.Id)">
-        <ProfileActionSummary UserProfile="Post.Author" ActionDateTime="Post.CreatedOn"/>
-        @if (!string.IsNullOrEmpty(Post.Image))
-        {
-            <img class="card-img-top"
-         src="@Post.Image"
-         alt="Card image cap">
-        }
-        <div class="card-body">
-            <p class="card-text">@Post.Name</p>
-            <p class="card-text">@Post.Description</p>
-        </div>
-        <div class="row">
-            <div class="col-sm-6">
-                <p>comments: @Post.CommentsCount</p>
-            </div>
-            <div class="col-sm-6">
-                <p>likes: @Post.Likes</p>
-            </div>
-        </div>
-    </div>
-
-    <button class="btn btn-primary" @onclick="() => LikePost(Post.Id)">Like</button>
-    <CommentCreate PostId="Post.Id"/>
+    <PostDisplay Post= "post"/>
 }
 
 <button class="btn btn-primary" @onclick="CreatePost">Create</button>
@@ -53,16 +29,5 @@
     private void CreatePost()
     {
         NavigationManager.NavigateTo("/post/create");
-    }
-
-    private void ViewPost(int id)
-    {
-        NavigationManager.NavigateTo($"/posts/{id}");
-    }
-
-    private async Task LikePost(int PostId)
-    {
-        var userId = await AuthService.GetUserId();
-        await PostLikeService.LikeUnlike(PostId, userId);
     }
 }

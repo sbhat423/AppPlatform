@@ -13,27 +13,28 @@ namespace Business.Services
         {
             _db = db;
         }
-        public async Task LikeUnlike(int postId, Guid userId)
+        public async Task<int> LikeUnlike(int postId, Guid userId)
         {
             var isLiked = await IsLiked(postId, userId);
             if (isLiked)
             {
-                await UnLike(postId, userId);
+                return await UnLike(postId, userId);
             }
             else
             {
-                await Like(postId, userId);
+                return await Like(postId, userId);
             }
         }
 
-        private async Task Like(int postId, Guid likedBy)
+        private async Task<int> Like(int postId, Guid likedBy)
         {
             var dbPostLike = PostLikeMapper.Map(postId, likedBy);
             _db.PostLikes.Add(dbPostLike);
             await _db.SaveChangesAsync();
+            return GetLikes(postId);
         }
 
-        private async Task UnLike(int postId, Guid unlikedBy)
+        private async Task<int> UnLike(int postId, Guid unlikedBy)
         {
             var dbPostLike = await _db.PostLikes.FindAsync(postId, unlikedBy);
             if (dbPostLike == null)
@@ -42,6 +43,7 @@ namespace Business.Services
             }
             _db.PostLikes.Remove(dbPostLike);
             await _db.SaveChangesAsync();
+            return GetLikes(postId);
         }
 
 
@@ -53,6 +55,12 @@ namespace Business.Services
                 return true;
             }
             return false;
+        }
+
+        private int GetLikes(int postId)
+        {
+            var dbPostLikes = _db.PostLikes.Count(x => x.PostId == postId);
+            return dbPostLikes;
         }
     }
 }

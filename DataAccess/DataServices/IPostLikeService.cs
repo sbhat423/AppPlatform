@@ -9,6 +9,6 @@ namespace DataAccess.DataServices
 {
     public interface IPostLikeService
     {
-        public Task LikeUnlike(int postId, Guid userId); 
+        public Task<int> LikeUnlike(int postId, Guid userId); 
     }
 }

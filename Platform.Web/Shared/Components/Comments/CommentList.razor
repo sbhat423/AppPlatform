@@ -16,8 +16,6 @@
     public int PostId { get; set; }
 
     private IEnumerable<CommentDto> _comments { get; set; } = new List<CommentDto>();
-    private Guid _currentUserId;
-    private bool _displaySubComments = false;
 
     protected override async Task OnInitializedAsync()
     {

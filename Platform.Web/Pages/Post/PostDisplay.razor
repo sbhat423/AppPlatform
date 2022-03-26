@@ -1,0 +1,52 @@
+﻿@using Models.DTOs.Post
+
+@using Models.DTOs.Post
+@using Platform.Web.Services.Interfaces
+@using Platform.Web.Shared.Components;
+@using Platform.Web.Shared.Components.Comments
+
+@inject IPostDataService PostService
+@inject IPostLikeService PostLikeService
+@inject NavigationManager NavigationManager
+@inject IAuthService AuthService
+
+ <div class="card m-4" style="width: 18rem;" @onclick="ViewPost">
+    <ProfileActionSummary UserProfile="Post.Author" ActionDateTime="Post.CreatedOn"/>
+    @if (!string.IsNullOrEmpty(Post.Image))
+    {
+        <img class="card-img-top"
+         src="@Post.Image"
+         alt="Card image cap">
+    }
+    <div class="card-body">
+        <p class="card-text">@Post.Name</p>
+        <p class="card-text">@Post.Description</p>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <p>comments: @Post.CommentsCount</p>
+        </div>
+        <div class="col-sm-6">
+            <p>likes: @Post.Likes</p>
+        </div>
+    </div>
+</div>
+
+<button class="btn btn-primary" @onclick="LikePost">Like</button>
+<CommentCreate PostId="Post.Id"/>
+
+@code {
+    [Parameter]
+    public PostDto Post { get; set; }
+
+    private void ViewPost()
+    {
+        NavigationManager.NavigateTo($"/posts/{Post.Id}");
+    }
+
+    private async Task LikePost()
+    {
+        var userId = await AuthService.GetUserId();
+        Post.Likes = await PostLikeService.LikeUnlike(Post.Id, userId);
+    }
+}
