@@ -4,28 +4,34 @@
 @inject ISubCommentService SubCommentService
 @inject IAuthService AuthService
 
-@if (!_displayEditor)
+@if (Display)
 {
-    <div class="form-group">
-        <button class="btn btn-primary" @onclick="DisplayEditor">Add Comment</button>
-    </div>
-}
-else
-{
-    <EditForm Model="_subComment" OnSubmit="CreateSubComment">
-        <div class="col-sm-6 form-group">
-            <InputTextArea @bind-Value="_subComment.Content" class="form-control"></InputTextArea>
-            <div class="form-group">
-                <button type="button" class="btn btn-secondary" @onclick="CloseEditor">Cancel</button>
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </div>
+    @if (!_displayEditor)
+    {
+        <div class="form-group">
+            <button class="btn btn-primary" @onclick="DisplayEditor">Add Comment</button>
         </div>
-    </EditForm>
+    }
+    else
+    {
+        <EditForm Model="_subComment" OnSubmit="CreateSubComment">
+            <div class="col-sm-6 form-group">
+                <InputTextArea @bind-Value="_subComment.Content" class="form-control"></InputTextArea>
+                <div class="form-group">
+                    <button type="button" class="btn btn-secondary" @onclick="CloseEditor">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+        </EditForm>
+    }
 }
 
 @code {
     [Parameter]
     public int CommentId { get; set; }
+    [Parameter]
+    public bool Display { get; set; } = true;
+
     private SubCommentDto _subComment { get; set; } = new SubCommentDto();
     private bool _displayEditor { get; set; } = false;
 

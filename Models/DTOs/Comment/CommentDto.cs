@@ -20,6 +20,7 @@ namespace Models.DTOs.Comment
         [Required]
         public DateTime CreatedOn { get; set; }
         public int Likes { get; set; }
+        public int SubCommentsCount { get; set; }
         public UserProfileDto UserProfile { get; set; }
     }
 }

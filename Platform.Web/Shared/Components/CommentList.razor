@@ -7,27 +7,30 @@
 @inject NavigationManager NavigationManager
 @inject IAuthService AuthService
 
-@foreach (var comment in Comments)
+@foreach (var comment in _comments)
 {
-    <ProfileActionSummary UserProfile="comment.UserProfile" ActionDateTime="comment.CreatedOn"/>
-    <p>@comment.Content</p>
-    <p>likes: @comment.Likes</p>
+    <div @onclick="ToggleDisplaySubComments">
+        <ProfileActionSummary UserProfile="comment.UserProfile" ActionDateTime="comment.CreatedOn"/>
+        <p>@comment.Content</p>
+        <p>likes: @comment.Likes</p>
+        <p>comments: @comment.SubCommentsCount</p>
 
-    @if (comment.CreatedBy == CurrentUserId)
-    {
-        <button class="btn btn-sm btn-danger" @onclick="() => DeleteComment(comment)">
-            <i class="fa fa-trash"></i>
+        @if (comment.CreatedBy == _currentUserId)
+        {
+            <button class="btn btn-sm btn-danger" @onclick="() => DeleteComment(comment)">
+                <i class="fa fa-trash"></i>
+            </button>
+        }
+
+        <button class="btn btn-sm btn-primary m-2" @onclick="() => LikeUnlike(comment)">
+            <i class="fa fa-thumbs-up"></i>
         </button>
-    }
-
-    <button class="btn btn-sm btn-primary m-2" @onclick="() => LikeUnlike(comment)">
-        <i class="fa fa-thumbs-up"></i>
-    </button>
-
+    </div>
+    
     <div class="row">
         <div class="offset-sm-1">
-            <SubCommentList CommentId="comment.Id" />
-            <SubCommentCreate CommentId="comment.Id" />
+            <SubCommentList CommentId="comment.Id" Display="_displaySubComments"/>
+            <SubCommentCreate CommentId="comment.Id" Display="_displaySubComments"/>
         </div>
     </div>
 }
@@ -35,25 +38,31 @@
 @code {
     [Parameter]
     public int PostId { get; set; }
-    private IEnumerable<CommentDto> Comments { get; set; } = new List<CommentDto>();
-    private bool canDelete { get; set; } = false;
 
-    private Guid CurrentUserId { get; set; }
+    private IEnumerable<CommentDto> _comments { get; set; } = new List<CommentDto>();
+    private bool _canDelete = false;
+    private Guid _currentUserId;
+    private bool _displaySubComments = false;
 
     protected override async Task OnInitializedAsync()
     {
-        CurrentUserId = await AuthService.GetUserId();
-        Comments = await CommentService.ListByPostId(PostId);
+        _currentUserId = await AuthService.GetUserId();
+        _comments = await CommentService.ListByPostId(PostId);
     }
 
     private async Task DeleteComment(CommentDto comment)
     {
         await CommentService.Delete(comment.Id);
-        Comments = Comments.Where(x => x.Id != comment.Id);
+        _comments = _comments.Where(x => x.Id != comment.Id);
     }
 
     private async Task LikeUnlike(CommentDto comment)
     {
-        await CommentLikeService.LikeUnlike(comment.Id, CurrentUserId);
+        await CommentLikeService.LikeUnlike(comment.Id, _currentUserId);
+    }
+
+    private void ToggleDisplaySubComments()
+    {
+        _displaySubComments = !_displaySubComments;
     }
 }

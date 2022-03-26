@@ -17,7 +17,10 @@ namespace Business.Services
 
         private async Task<CommentDto> Get(int id)
         {
-            var dbComment = await _db.Comments.FindAsync(id);
+            var dbComment = await _db.Comments
+                .Include(x => x.SubComments)
+                .FirstOrDefaultAsync(x => x.Id == id);
+
             if (dbComment == null)
             {
                 throw new Exception("Comment with the given Id not found");
@@ -50,6 +53,7 @@ namespace Business.Services
         {
             var dbComments = await _db.Comments
                 .Include(x => x.UserProfile)
+                .Include(x => x.SubComments)
                 .Where(x => x.PostId == postId)
                 .Include(x => x.CommentLikes)
                 .ToListAsync();

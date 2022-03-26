@@ -20,6 +20,7 @@ namespace DataAccess.DataModels
         public bool IsDeleted { get; set; }
         public virtual Post Post { get; set; }
         public virtual IList<CommentLike> CommentLikes { get; set; }
+        public virtual IList<SubComment> SubComments { get; set; }
         public virtual UserProfile UserProfile { get; set; }
     }
 }

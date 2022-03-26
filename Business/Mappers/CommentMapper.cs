@@ -25,6 +25,7 @@ namespace Business.Mappers
                 CreatedBy = comment.CreatedBy,
                 CreatedOn = comment.CreatedOn,
                 Likes = comment.CommentLikes == null ? 0 : comment.CommentLikes.Count(),
+                SubCommentsCount = comment.SubComments == null ? 0 : comment.SubComments.Count(),
                 UserProfile = UserProfilesMapper.Map(comment.UserProfile),
             };
         }

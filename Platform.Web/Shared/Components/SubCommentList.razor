@@ -7,30 +7,36 @@
 @inject NavigationManager NavigationManager
 @inject IAuthService AuthService
 
-@foreach (var subComment in SubComments)
+@if (Display)
 {
-    <div class="row">
-        <div class="col-sm-6 m-2" style="background-color: lightgray">
-            <p>@subComment.Content</p>
+    @foreach (var subComment in SubComments)
+    {
+        <div class="row">
+            <div class="col-sm-6 m-2" style="background-color: lightgray">
+                <p>@subComment.Content</p>
 
-            <div>
-                @if (subComment.CreatedBy == UserId)
-                {
-                    <button class="btn btn-sm btn-danger" @onclick="() => DeleteComment(subComment)">
-                        <i class="fa fa-trash"></i>
+                <div>
+                    @if (subComment.CreatedBy == UserId)
+                    {
+                        <button class="btn btn-sm btn-danger" @onclick="() => DeleteComment(subComment)">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    }
+                    <button class="btn btn-sm btn-primary m-2" @onclick="() => LikeUnlike(subComment)">
+                        <i class="fa fa-thumbs-up"></i>
                     </button>
-                }
-                <button class="btn btn-sm btn-primary m-2" @onclick="() => LikeUnlike(subComment)">
-                    <i class="fa fa-thumbs-up"></i>
-                </button>
-            </div>
-        </div> 
-    </div>
+                </div>
+            </div> 
+        </div>
+    }
 }
 
 @code {
     [Parameter]
     public int CommentId { get; set; }
+    [Parameter]
+    public bool Display { get; set; } = true;
+
     private IEnumerable<SubCommentDto> SubComments { get; set; } = new List<SubCommentDto>();
     private Guid UserId { get; set; }
 
