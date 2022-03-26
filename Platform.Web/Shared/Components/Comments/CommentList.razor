@@ -4,36 +4,11 @@
 @using Platform.Web.Shared.Components.SubComments;
 
 @inject ICommentDataService CommentService
-@inject ICommentLikeService CommentLikeService
 @inject NavigationManager NavigationManager
-@inject IAuthService AuthService
 
 @foreach (var comment in _comments)
 {
-    <div @onclick="ToggleDisplaySubComments">
-        <ProfileActionSummary UserProfile="comment.UserProfile" ActionDateTime="comment.CreatedOn"/>
-        <p>@comment.Content</p>
-        <p>likes: @comment.Likes</p>
-        <p>comments: @comment.SubCommentsCount</p>
-
-        @if (comment.CreatedBy == _currentUserId)
-        {
-            <button class="btn btn-sm btn-danger" @onclick="() => DeleteComment(comment)">
-                <i class="fa fa-trash"></i>
-            </button>
-        }
-
-        <button class="btn btn-sm btn-primary m-2" @onclick="() => LikeUnlike(comment)">
-            <i class="fa fa-thumbs-up"></i>
-        </button>
-    </div>
-    
-    <div class="row">
-        <div class="offset-sm-1">
-            <SubCommentList CommentId="comment.Id" Display="_displaySubComments"/>
-            <SubCommentCreate CommentId="comment.Id" Display="_displaySubComments"/>
-        </div>
-    </div>
+   <CommentDisplay Comment="comment" OnCommentDelete="DeleteComment"/>
 }
 
 @code {
@@ -46,23 +21,12 @@
 
     protected override async Task OnInitializedAsync()
     {
-        _currentUserId = await AuthService.GetUserId();
         _comments = await CommentService.ListByPostId(PostId);
     }
 
-    private async Task DeleteComment(CommentDto comment)
+    private async Task DeleteComment(int commentId)
     {
-        await CommentService.Delete(comment.Id);
-        _comments = _comments.Where(x => x.Id != comment.Id);
-    }
-
-    private async Task LikeUnlike(CommentDto comment)
-    {
-        await CommentLikeService.LikeUnlike(comment.Id, _currentUserId);
-    }
-
-    private void ToggleDisplaySubComments()
-    {
-        _displaySubComments = !_displaySubComments;
+        await CommentService.Delete(commentId);
+        _comments = _comments.Where(x => x.Id != commentId);
     }
 }

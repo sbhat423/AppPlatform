@@ -19,6 +19,7 @@ namespace Business.Services
         {
             var dbComment = await _db.Comments
                 .Include(x => x.SubComments)
+                .Include(x => x.UserProfile)
                 .FirstOrDefaultAsync(x => x.Id == id);
 
             if (dbComment == null)

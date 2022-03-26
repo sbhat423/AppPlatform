@@ -1,0 +1,64 @@
+﻿@using Business.Services
+@using Models.DTOs.Comment
+@using Platform.Web.Services.Interfaces
+@using Platform.Web.Shared.Components.SubComments
+
+@inject ICommentDataService CommentService
+@inject ICommentLikeService CommentLikeService
+@inject IAuthService AuthService
+
+
+<div @onclick="ToggleDisplaySubComments">
+    <ProfileActionSummary UserProfile="Comment.UserProfile" ActionDateTime="Comment.CreatedOn" />
+    <p>@Comment.Content</p>
+    <p>likes: @Comment.Likes</p>
+    <p>comments: @Comment.SubCommentsCount</p>
+
+    @if (Comment.CreatedBy == _currentUserId)
+    {
+        <button class="btn btn-sm btn-danger" @onclick="DeleteComment">
+            <i class="fa fa-trash"></i>
+        </button>
+    }
+
+    <button class="btn btn-sm btn-primary m-2" @onclick="LikeUnlike">
+        <i class="fa fa-thumbs-up"></i>
+    </button>
+</div>
+
+<div class="row">
+    <div class="offset-sm-1">
+        <SubCommentList CommentId="Comment.Id" Display="_displaySubComments" />
+        <SubCommentCreate CommentId="Comment.Id" Display="_displaySubComments" />
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public CommentDto Comment { get; set; }
+    [Parameter]
+    public EventCallback<int> OnCommentDelete { get; set; } 
+
+    private Guid _currentUserId;
+    private bool _displaySubComments = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _currentUserId = await AuthService.GetUserId();
+    }
+
+    private async Task LikeUnlike()
+    {
+        await CommentLikeService.LikeUnlike(Comment.Id, _currentUserId);
+    }
+
+    private void ToggleDisplaySubComments()
+    {
+        _displaySubComments = !_displaySubComments;
+    }
+
+    private async Task DeleteComment()
+    {
+         await OnCommentDelete.InvokeAsync(Comment.Id);
+    }
+}
