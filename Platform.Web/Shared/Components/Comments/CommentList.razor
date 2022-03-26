@@ -1,6 +1,7 @@
 ﻿@using Models.DTOs.Comment
 @using Platform.Web.Services.Interfaces
 @using Platform.Web.Shared.Components;
+@using Platform.Web.Shared.Components.SubComments;
 
 @inject ICommentDataService CommentService
 @inject ICommentLikeService CommentLikeService
@@ -40,7 +41,6 @@
     public int PostId { get; set; }
 
     private IEnumerable<CommentDto> _comments { get; set; } = new List<CommentDto>();
-    private bool _canDelete = false;
     private Guid _currentUserId;
     private bool _displaySubComments = false;
 
