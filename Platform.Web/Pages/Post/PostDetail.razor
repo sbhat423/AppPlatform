@@ -9,7 +9,12 @@
 
 @attribute [Authorize]
 
-@if (Post != null)
+@if (_loading)
+{
+    <LoadingIndicator/>
+}
+
+@if (Post != null && !_loading)
 {
     <div class="card m-4" style="width: 18rem;">
         <ProfileActionSummary UserProfile="Post.Author" ActionDateTime="Post.CreatedOn"/>
@@ -35,9 +40,12 @@
     public int Id { get; set; }
 
     private PostDto Post { get; set; }
+    private bool _loading = false;
 
     protected override async Task OnInitializedAsync()
     {
+        _loading = true;
         Post = await PostService.Get(Id);
+        _loading = false;
     }
 }

@@ -10,6 +10,12 @@
 
 @attribute [Authorize]
 
+@if (_loading)
+{   
+    <LoadingIndicator/>
+}
+
+
 <div class="row mt-2 mb-5">
     <h3 class="card-title text-info mb-3 ml-3">Create Post</h3>
     <div class="card-body">
@@ -37,12 +43,15 @@
 
 @code {
     private PostDto PostDto { get; set; } = new PostDto();
+    private bool _loading = false;
 
     private async Task CreatePost()
     {
+        _loading = true;
         PostDto.AuthorId = await AuthService.GetUserId();
         await PostService.Create(PostDto);
         NavigationManager.NavigateTo("posts");
+        _loading = false;
     }
 
      private void OnSelectedImage(string imageBase64)

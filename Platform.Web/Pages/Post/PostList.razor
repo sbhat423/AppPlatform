@@ -11,19 +11,29 @@
 
 @attribute [Authorize]
 
-@foreach (var post in Posts)
+@if (_loading)
 {
-    <PostDisplay Post= "post"/>
+   <LoadingIndicator/>
+}
+else
+{
+    @foreach (var post in Posts)
+    {
+        <PostDisplay Post="post" />
+    }
 }
 
 <button class="btn btn-primary" @onclick="CreatePost">Create</button>
 
 @code {
     private IEnumerable<PostDto> Posts { get; set; } = new List<PostDto>();
+    private bool _loading = false;
 
     protected override async Task OnInitializedAsync()
     {
+        _loading = true;
         Posts = await PostService.List();
+        _loading = false;
     }
 
     private void CreatePost()
