@@ -31,7 +31,7 @@ namespace Business.Services
                 var dbPost = PostMapper.Map(postDto);
                 await _db.Posts.AddAsync(dbPost);
                 await _db.SaveChangesAsync();
-                return PostMapper.Map(dbPost);
+                return await Get(dbPost.Id);
             }
             catch (Exception)
             {
