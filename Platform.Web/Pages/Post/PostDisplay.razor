@@ -10,36 +10,44 @@
 @inject NavigationManager NavigationManager
 @inject IAuthService AuthService
 
-<div class="card m-4 col-sm-5" @onclick="ViewPost">
-    <ProfileActionSummary UserProfile="Post.Author" ActionDateTime="Post.CreatedOn" />
-    @if (!string.IsNullOrEmpty(Post.Image))
-    {
-        <img class="card-img-top"
-         src="@Post.Image"
-         alt="Card image cap">
-    }
-    <div class="card-body">
-        <p class="card-text">@Post.Name</p>
-        <p class="card-text">@Post.Description</p>
-    </div>
+<div class="row">
+    <div class="card col-md-10 col-lg-6 mx-auto my-1" @onclick="ViewPost">
+        <ProfileActionSummary UserProfile="Post.Author" ActionDateTime="Post.CreatedOn" />
+        
+        <hr class="my-0" />
 
-    <div class="row">
-        <div class="col-sm-6 text-center">
-            <p class="mx-4">comments: @Post.CommentsCount</p>
+        <div class="card-body">
+            <p class="card-text">@Post.Name</p>
+            <p class="card-text">@Post.Description</p>
         </div>
-        <div class="col-sm-6 float-left text-center">
-            <p class="mx-4">likes: @Post.Likes</p>
-        </div>
-    </div>
 
-    <div class="row">
-        <div class="col-sm-6 text-center">
-            <button class="btn btn-sm btn-primary m-2" @onclick="LikePost">
-                <i class="fa fa-thumbs-up"></i>
-            </button>
+        @if (!string.IsNullOrEmpty(Post.Image))
+        {
+            <img class="card-img-top"
+             src="@Post.Image"
+             alt="Card image cap">
+        }
+
+        <div class="row">
+            <div class="col-sm-6 text-center">
+                <p class="mx-4">comments: @Post.CommentsCount</p>
+            </div>
+            <div class="col-sm-6 float-left text-center">
+                <p class="mx-4">likes: @Post.Likes</p>
+            </div>
         </div>
-        <div class="col-sm-6 float-left text-center">
-            <CommentCreate PostId="Post.Id" />
+
+        <hr class="my-0" />
+
+        <div class="row">
+            <div class="col-sm-6 text-center">
+                <button class="btn btn-sm btn-primary m-2" @onclick="LikePost">
+                    <i class="fa fa-thumbs-up"></i>
+                </button>
+            </div>
+            <div class="col-sm-6 float-left text-center">
+                <CommentCreate PostId="Post.Id" />
+            </div>
         </div>
     </div>
 </div>
