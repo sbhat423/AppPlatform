@@ -10,8 +10,8 @@
 @inject NavigationManager NavigationManager
 @inject IAuthService AuthService
 
- <div class="card m-4" style="width: 18rem;" @onclick="ViewPost">
-    <ProfileActionSummary UserProfile="Post.Author" ActionDateTime="Post.CreatedOn"/>
+<div class="card m-4 col-sm-5" @onclick="ViewPost">
+    <ProfileActionSummary UserProfile="Post.Author" ActionDateTime="Post.CreatedOn" />
     @if (!string.IsNullOrEmpty(Post.Image))
     {
         <img class="card-img-top"
@@ -22,18 +22,28 @@
         <p class="card-text">@Post.Name</p>
         <p class="card-text">@Post.Description</p>
     </div>
+
     <div class="row">
-        <div class="col-sm-6">
-            <p>comments: @Post.CommentsCount</p>
+        <div class="col-sm-6 text-center">
+            <p class="mx-4">comments: @Post.CommentsCount</p>
         </div>
-        <div class="col-sm-6">
-            <p>likes: @Post.Likes</p>
+        <div class="col-sm-6 float-left text-center">
+            <p class="mx-4">likes: @Post.Likes</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-6 text-center">
+            <button class="btn btn-sm btn-primary m-2" @onclick="LikePost">
+                <i class="fa fa-thumbs-up"></i>
+            </button>
+        </div>
+        <div class="col-sm-6 float-left text-center">
+            <CommentCreate PostId="Post.Id" />
         </div>
     </div>
 </div>
 
-<button class="btn btn-primary" @onclick="LikePost">Like</button>
-<CommentCreate PostId="Post.Id"/>
 
 @code {
     [Parameter]
